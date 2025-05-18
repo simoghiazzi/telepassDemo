@@ -168,7 +168,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           size: 22,
                         ),
                       ),
-                    if (_showPasswordButton)
+                    if (_showPasswordButton &&
+                        widget.controller!.text.isNotEmpty)
                       GestureDetector(
                         onTap: () {
                           setState(() {

@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghiazzi/models/user_model.dart';
 import 'package:ghiazzi/repositories/sign_in_repository.dart';
 import 'package:ghiazzi/utils/utils.dart';
+import 'package:ghiazzi/viewmodels/user_session.dart';
 
 abstract class SigninState {}
 
@@ -55,5 +57,19 @@ class SigninViewModel extends Cubit<SigninState> {
       return false;
     }
     return (true);
+  }
+
+  Future<void> signin() async {
+    emit(SigninLoading());
+    try {
+      Map<String, dynamic> data = await signinRepository.signin(_authData!);
+      UserModel user = UserModel.fromJson(data);
+
+      UserSession().setUser(user);
+
+      emit(SigninSuccess());
+    } catch (e) {
+      emit(SigninError(e.toString()));
+    }
   }
 }

@@ -7,6 +7,7 @@ import 'package:ghiazzi/components/fields/custom_text_field.dart';
 import 'package:ghiazzi/constants/colors.dart';
 import 'package:ghiazzi/constants/themes.dart';
 import 'package:ghiazzi/viewmodels/signin_view_model.dart';
+import 'package:go_router/go_router.dart';
 
 class SigninView extends StatefulWidget {
   const SigninView({super.key});
@@ -16,7 +17,9 @@ class SigninView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<SigninView> {
-  bool rememberMe = false;
+  bool activeTextfields = true;
+
+  bool termsAccepted = false;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -80,36 +83,19 @@ class _LoginViewState extends State<SigninView> {
                 child: Column(
                   children: [
                     const SizedBox(height: 40),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Inserisci le tue credenziali',
-                          style: appTextStyles.headingL,
-                          textAlign: TextAlign.start,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'per accedere al tuo account',
-                          style: appTextStyles.headingL,
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
                     LayoutBuilder(
                       builder: (context, constraints) {
                         double maxWidth;
                         double horizontalPadding;
                         if (constraints.maxWidth < 600) {
-                          maxWidth = 400;
-                          horizontalPadding = 16;
+                          maxWidth = 300;
+                          horizontalPadding = 10;
                         } else if (constraints.maxWidth < 900) {
-                          maxWidth = 600;
-                          horizontalPadding = 32;
+                          maxWidth = 500;
+                          horizontalPadding = 30;
                         } else {
-                          maxWidth = 700;
-                          horizontalPadding = 0;
+                          maxWidth = 600;
+                          horizontalPadding = 50;
                         }
                         return Center(
                           child: Container(
@@ -121,10 +107,26 @@ class _LoginViewState extends State<SigninView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Inserisci le tue credenziali',
+                                      style: appTextStyles.headingL,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    Text(
+                                      'per accedere al tuo account',
+                                      style: appTextStyles.headingL,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 32),
                                 CustomTextField(
                                   label: 'Email',
                                   controller: emailController,
-                                  enabled: true,
+                                  enabled: activeTextfields,
                                   onChanged: (value) => validateEmail(value),
                                   isChecked: isEmailValid,
                                 ),
@@ -132,7 +134,7 @@ class _LoginViewState extends State<SigninView> {
                                 CustomTextField(
                                   label: 'Password',
                                   controller: passwordController,
-                                  enabled: true,
+                                  enabled: activeTextfields,
                                   isPassword: true,
                                   onChanged: (value) => validatePassword(value),
                                   isChecked: isPasswordValid,
@@ -170,16 +172,17 @@ class _LoginViewState extends State<SigninView> {
                                 ),
                                 const SizedBox(height: 40),
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     CustomCheckbox(
-                                      value: rememberMe,
+                                      value: termsAccepted,
                                       onChanged: (value) {
                                         setState(() {
-                                          rememberMe = value;
+                                          termsAccepted = value;
                                         });
                                       },
                                     ),
-                                    const SizedBox(width: 32),
+                                    const SizedBox(width: 16),
                                     Expanded(
                                       child: Text.rich(
                                         TextSpan(
@@ -247,21 +250,50 @@ class _LoginViewState extends State<SigninView> {
                                   ],
                                 ),
                                 const SizedBox(height: 28),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 150.0,
-                                  ),
-                                  child: CustomTextButton(
-                                    onPressed: () {},
-                                    title: 'Accedi',
-                                    textStyle: appTextStyles.headingM.copyWith(
-                                      color: palette.grey0,
-                                    ),
-                                    verticalPadding: 8,
-                                    isActive: isEmailValid && isPasswordValid,
-                                    color: palette.primary800,
-                                    alignment: MainAxisAlignment.center,
-                                  ),
+                                BlocConsumer<SigninViewModel, SigninState>(
+                                  bloc: signinViewModel,
+                                  listener: (context, state) {
+                                    if (state is SigninSuccess) {
+                                      context.push('/home');
+                                    }
+                                  },
+                                  builder: (context, state) {
+                                    if (state is SigninLoading) {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: palette.primary600,
+                                        ),
+                                      );
+                                    } else {
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: horizontalPadding,
+                                        ),
+                                        child: CustomTextButton(
+                                          onPressed: () {
+                                            if (isEmailValid &&
+                                                isPasswordValid &&
+                                                termsAccepted) {
+                                              signinViewModel.signin();
+                                              setState(() {
+                                                activeTextfields = false;
+                                              });
+                                            }
+                                          },
+                                          title: 'Accedi',
+                                          textStyle: appTextStyles.headingM
+                                              .copyWith(color: palette.grey0),
+                                          verticalPadding: 8,
+                                          isActive:
+                                              isEmailValid &&
+                                              isPasswordValid &&
+                                              termsAccepted,
+                                          color: palette.primary800,
+                                          alignment: MainAxisAlignment.center,
+                                        ),
+                                      );
+                                    }
+                                  },
                                 ),
                                 const SizedBox(height: 16),
                                 Center(
@@ -287,6 +319,8 @@ class _LoginViewState extends State<SigninView> {
                                     ),
                                   ),
                                 ),
+
+                                const SizedBox(height: 40),
                               ],
                             ),
                           ),
