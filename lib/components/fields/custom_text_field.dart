@@ -10,6 +10,7 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
   final String? placeholder;
   final ValueChanged<String>? onChanged;
+  final bool isChecked;
 
   const CustomTextField({
     super.key,
@@ -20,6 +21,7 @@ class CustomTextField extends StatefulWidget {
     this.isPassword = false,
     this.placeholder,
     this.onChanged,
+    this.isChecked = false,
   });
 
   @override
@@ -35,11 +37,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   bool get _showPasswordButton => widget.enabled && widget.isPassword;
 
-  bool hideText = true;
+  late bool hideText;
 
   @override
   void initState() {
     super.initState();
+
+    hideText = widget.isPassword;
+
     widget.controller!.text = widget.initialValue ?? '';
     _focusNode =
         FocusNode()
@@ -153,6 +158,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
               child: Center(
                 child: Row(
                   children: [
+                    if (widget.isChecked)
+                      SizedBox(
+                        width: 36,
+                        height: 36,
+                        child: Icon(
+                          Icons.check_circle_outline,
+                          color: palette.success50,
+                          size: 22,
+                        ),
+                      ),
                     if (_showPasswordButton)
                       GestureDetector(
                         onTap: () {

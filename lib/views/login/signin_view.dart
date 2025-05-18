@@ -1,29 +1,62 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghiazzi/components/buttons/custom_checkbox.dart';
 import 'package:ghiazzi/components/buttons/custom_text_button.dart';
 import 'package:ghiazzi/components/fields/custom_text_field.dart';
 import 'package:ghiazzi/constants/colors.dart';
 import 'package:ghiazzi/constants/themes.dart';
+import 'package:ghiazzi/viewmodels/signin_view_model.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class SigninView extends StatefulWidget {
+  const SigninView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<SigninView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends State<SigninView> {
   bool rememberMe = false;
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  late SigninViewModel signinViewModel;
+  bool isEmailValid = false;
+  bool isPasswordValid = false;
+
+  @override
+  void initState() {
+    super.initState();
+    signinViewModel = context.read<SigninViewModel>();
+
+    // Initialize controllers with data from authData if available
+    final email = signinViewModel.authData?['email'];
+    final password = signinViewModel.authData?['username'];
+
+    emailController.text = email ?? '';
+    passwordController.text = password ?? '';
+  }
+
+  void validateEmail(String email) {
+    final isValid = signinViewModel.checkEmail(email);
+    setState(() {
+      isEmailValid = isValid;
+    });
+  }
+
+  void validatePassword(String password) {
+    final isValid = signinViewModel.checkPassword(password);
+    setState(() {
+      isPasswordValid = isValid;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final palette = Theme.of(context).extension<CustomPalette>()!;
     final appTextStyles =
         Theme.of(context).extension<AppThemeExtension>()!.textStyles;
-
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
       appBar: PreferredSize(
@@ -92,6 +125,8 @@ class _LoginViewState extends State<LoginView> {
                                   label: 'Email',
                                   controller: emailController,
                                   enabled: true,
+                                  onChanged: (value) => validateEmail(value),
+                                  isChecked: isEmailValid,
                                 ),
                                 const SizedBox(height: 24),
                                 CustomTextField(
@@ -99,6 +134,8 @@ class _LoginViewState extends State<LoginView> {
                                   controller: passwordController,
                                   enabled: true,
                                   isPassword: true,
+                                  onChanged: (value) => validatePassword(value),
+                                  isChecked: isPasswordValid,
                                 ),
                                 const SizedBox(height: 16),
                                 Align(
@@ -221,7 +258,7 @@ class _LoginViewState extends State<LoginView> {
                                       color: palette.grey0,
                                     ),
                                     verticalPadding: 8,
-                                    isActive: true,
+                                    isActive: isEmailValid && isPasswordValid,
                                     color: palette.primary800,
                                     alignment: MainAxisAlignment.center,
                                   ),

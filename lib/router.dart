@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:ghiazzi/views/login/login_view.dart';
+import 'package:ghiazzi/views/login/signin_view.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -17,7 +17,7 @@ class AppRouter {
         GoRoute(
           name: 'login',
           path: '/login',
-          builder: (context, state) => const LoginView(),
+          builder: (context, state) => const SigninView(),
         ),
       ],
     );
