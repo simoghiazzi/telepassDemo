@@ -1,8 +1,100 @@
 import 'package:flutter/material.dart';
 import 'package:ghiazzi/constants/colors.dart';
+import 'text_styles.dart';
+
+class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
+  final TextStyles textStyles;
+
+  const AppThemeExtension({required this.textStyles});
+
+  @override
+  AppThemeExtension copyWith({TextStyles? textStyles}) {
+    return AppThemeExtension(textStyles: textStyles ?? this.textStyles);
+  }
+
+  @override
+  AppThemeExtension lerp(ThemeExtension<AppThemeExtension>? other, double t) {
+    if (other is! AppThemeExtension) return this;
+    return this;
+  }
+}
+
+final AppThemeExtension appThemeExtension = AppThemeExtension(
+  textStyles: TextStyles(
+    displayL: TextStyle(
+      fontFamily: "DMSans",
+      fontSize: 32,
+      fontWeight: FontWeight.bold,
+    ),
+    displayM: TextStyle(
+      fontFamily: "DMSans",
+      fontSize: 28,
+      fontWeight: FontWeight.bold,
+    ),
+    headingXL: TextStyle(
+      fontFamily: "DMSans",
+      fontSize: 32,
+      fontWeight: FontWeight.w600,
+    ),
+    headingL: TextStyle(
+      fontFamily: "DMSans",
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+    ),
+    headingM: TextStyle(
+      fontFamily: "DMSans",
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
+    headingS: TextStyle(
+      fontFamily: "DMSans",
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+    ),
+    headingSMedium: TextStyle(fontFamily: "DMSans", fontSize: 16),
+    headingXS: TextStyle(fontFamily: "DMSans", fontSize: 16),
+    ctaL: TextStyle(fontFamily: "DMSans", fontSize: 16),
+    ctaM: TextStyle(fontFamily: "DMSans", fontSize: 14),
+    ctaS: TextStyle(fontFamily: "DMSans", fontSize: 12),
+    paragraphL: TextStyle(
+      fontFamily: "PlusJakartaSans",
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    ),
+    paragraphM: TextStyle(
+      fontFamily: "PlusJakartaSans",
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+    ),
+    paragraphS: TextStyle(
+      fontFamily: "PlusJakartaSans",
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+    ),
+    paragraphXS: TextStyle(
+      fontFamily: "PlusJakartaSans",
+      fontSize: 10,
+      fontWeight: FontWeight.w400,
+    ),
+    linkL: TextStyle(
+      fontFamily: "DMSans",
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+    ),
+    linkM: TextStyle(
+      fontFamily: "DMSans",
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+    ),
+    linkS: TextStyle(
+      fontFamily: "DMSans",
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+    ),
+  ),
+);
 
 /// As said in the colors.dart file, I have just defined the light theme for this demo.
-/// In this file, we could also integrate custom text styles.
 
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -64,5 +156,6 @@ final ThemeData lightTheme = ThemeData(
       linearTop: AppColors.linearTop,
       linearBottom: AppColors.linearBottom,
     ),
+    appThemeExtension,
   ],
 );
