@@ -11,10 +11,15 @@ class WorkInProgressView extends StatelessWidget {
     final appTextStyles =
         Theme.of(context).extension<AppThemeExtension>()!.textStyles;
     return Center(
-      child: Text(
-        'Work in progress',
-        style: appTextStyles.displayL.copyWith(color: palette.primary800),
-        textAlign: TextAlign.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Work in progress',
+            style: appTextStyles.displayL.copyWith(color: palette.primary800),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

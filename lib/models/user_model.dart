@@ -6,8 +6,8 @@ class UserModel {
   String? email;
   String username;
   int age;
-  String? refreshToken;
-  String? refreshTokenExpDate;
+  String? token;
+  String? tokenExpDate;
   PersonalData personalData;
 
   UserModel({
@@ -18,8 +18,8 @@ class UserModel {
     this.email,
     required this.username,
     required this.age,
-    this.refreshToken,
-    this.refreshTokenExpDate,
+    this.token,
+    this.tokenExpDate,
     required this.personalData,
   });
 
@@ -31,8 +31,8 @@ class UserModel {
     email: json['email'],
     username: json['username'],
     age: json['age'],
-    refreshToken: json['refreshToken'],
-    refreshTokenExpDate: json['refreshTokenExpDate'],
+    token: json['token'],
+    tokenExpDate: json['tokenExpDate'],
     personalData: PersonalData.fromJson(json['personalData']),
   );
 }

@@ -1,6 +1,6 @@
 class SigninRepository {
   Future<Map<String, dynamic>> signin(Map<String, String> authData) async {
-    ///Example of what could be done for an actual API call, getting session tokens and then potentially using them for retrieving user's data
+    ///Example of what could be done for an actual API call, via the Dio package, getting session tokens and then potentially using them for retrieving user's data
     // try {
     //   final Map<String, dynamic> data = {
     //     'email': authData['email'],
@@ -14,8 +14,8 @@ class SigninRepository {
     //   if (response.statusCode == 200) {
     //     final data = response.data as Map<String, dynamic>;
     //     final token = data['token'];
-    //     final refreshToken = data['refreshToken'];
-    //     return {'token': token, 'refreshToken': refreshToken};
+    //     final token = data['token'];
+    //     return {'token': token, 'token': token};
     //   } else {
     //     throw Exception('Login failed: ${response.data}');
     //   }
@@ -30,6 +30,8 @@ class SigninRepository {
     //     throw Exception('Error sending request: ${e.message}');
     //   }
     // }
+
+    //Mocking awaiting for the API response
     await Future.delayed(const Duration(seconds: 2));
     // Simulated user JSON
     return {
@@ -40,8 +42,8 @@ class SigninRepository {
       'email': authData['email'],
       'username': 'testuser',
       'age': 28,
-      'refreshToken': 'dummy_refresh_token',
-      'refreshTokenExpDate': '2025-06-18T22:00:00Z',
+      'token': 'dummy_refresh_token',
+      'tokenExpDate': '2025-06-18T22:00:00Z',
       'personalData': {
         'id': 100,
         'createdAt': '2025-05-18T22:00:00Z',

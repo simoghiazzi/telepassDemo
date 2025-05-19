@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ghiazzi/components/custom_search_bar.dart';
 import 'package:ghiazzi/constants/colors.dart';
 import 'package:ghiazzi/constants/themes.dart';
 import 'package:go_router/go_router.dart';
@@ -70,20 +71,24 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                                           Icon(
                                             entry.value.icon,
                                             color:
-                                                widget.navigationShell.currentIndex == entry.key
+                                                widget
+                                                            .navigationShell
+                                                            .currentIndex ==
+                                                        entry.key
                                                     ? palette.primary800
                                                     : palette.grey300,
                                           ),
                                           Text(
                                             entry.value.label,
-                                            style: appTextStyles.headingS
-                                                .copyWith(
-                                                  color:
-                                                      widget.navigationShell.currentIndex ==
-                                                              entry.key
-                                                          ? palette.primary800
-                                                          : palette.grey300,
-                                                ),
+                                            style: appTextStyles.headingS.copyWith(
+                                              color:
+                                                  widget
+                                                              .navigationShell
+                                                              .currentIndex ==
+                                                          entry.key
+                                                      ? palette.primary800
+                                                      : palette.grey300,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -105,7 +110,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
               centerTitle: isWide,
               actions: [
                 Padding(
-                  padding: EdgeInsets.only(right: isWide ? 100 : 0, top: 16),
+                  padding: EdgeInsets.only(right: isWide ? 120 : 0, top: 16),
                   child: Row(
                     children: [
                       if (isWide)
@@ -153,18 +158,68 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                           return ListTile(
                             leading: Icon(entry.value.icon),
                             title: Text(entry.value.label),
-                            selected: widget.navigationShell.currentIndex == entry.key,
+                            selected:
+                                widget.navigationShell.currentIndex ==
+                                entry.key,
                             onTap: () => _onTap(entry.key),
                           );
                         }),
                       ],
                     ),
                   ),
-          body: SafeArea(bottom: false, child: widget.navigationShell),
+          body: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                if (widget.navigationShell.currentIndex < 2)
+                  CustomSearchBar(
+                    label: _getSearchBarLabel(
+                      widget.navigationShell.currentIndex,
+                    ),
+                  ),
+                Expanded(
+                  child: Center(
+                    child: SingleChildScrollView(child: widget.navigationShell),
+                  ),
+                ),
+                Container(
+                  color: palette.primary1000,
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset('assets/images/logo.png', height: 32),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Sede legale: Via Laurentina, 449 - 00142 Roma (RM)\nP.IVA 09771701001 - Certificato ISO9001 e ISO27001',
+                        style: appTextStyles.paragraphS.copyWith(
+                          color: palette.grey400,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           extendBody: true,
         );
       },
     );
+  }
+
+  String _getSearchBarLabel(int index) {
+    switch (index) {
+      case 0:
+        return 'Benvenuto!'; // Home page label
+      case 1:
+        return 'Corsi'; // Courses page label
+      // Add more cases for other pages if needed
+      default:
+        return 'Cerca';
+    }
   }
 
   void _onTap(index) {
