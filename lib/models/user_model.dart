@@ -35,11 +35,6 @@ class UserModel {
     refreshTokenExpDate: json['refreshTokenExpDate'],
     personalData: PersonalData.fromJson(json['personalData']),
   );
-
-  @override
-  String toString() {
-    return 'UserModel{id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, email: $email, username: $username, age: $age, refreshToken: $refreshToken, refreshTokenExpDate: $refreshTokenExpDate, personalData: $personalData,}';
-  }
 }
 
 class PersonalData {
@@ -73,9 +68,4 @@ class PersonalData {
     birthDate: json['birthDate'],
     gender: json['gender'],
   );
-
-  @override
-  String toString() {
-    return 'PersonalData{id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, lastName: $lastName, firstName: $firstName, birthDate: $birthDate, gender: $gender}';
-  }
 }
