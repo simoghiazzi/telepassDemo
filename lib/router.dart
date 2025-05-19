@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ghiazzi/views/courses/courses_view.dart';
 import 'package:ghiazzi/views/homepage/home_view.dart';
 import 'package:ghiazzi/views/login/signin_view.dart';
 import 'package:ghiazzi/views/scaffold_with_navigation.dart';
+import 'package:ghiazzi/views/wip/work_in_progress_view.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -36,6 +38,33 @@ class AppRouter {
                 GoRoute(
                   path: '/home',
                   builder: (context, state) => const HomeView(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: <RouteBase>[
+                GoRoute(
+                  name: 'courses',
+                  path: '/courses',
+                  builder: (context, state) => const CoursesView(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: <RouteBase>[
+                GoRoute(
+                  name: 'knowledge',
+                  path: '/knowledge',
+                  builder: (context, state) => const WorkInProgressView(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: <RouteBase>[
+                GoRoute(
+                  name: 'profile',
+                  path: '/profile',
+                  builder: (context, state) => const WorkInProgressView(),
                 ),
               ],
             ),

@@ -99,7 +99,7 @@ final AppThemeExtension appThemeExtension = AppThemeExtension(
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: AppColors.primaryLight500,
-  scaffoldBackgroundColor: AppColors.greyLight0,
+  scaffoldBackgroundColor: AppColors.greyLight50,
   colorScheme: ColorScheme(
     brightness: Brightness.light,
     primary: AppColors.primaryLight500,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ghiazzi/constants/colors.dart';
+import 'package:ghiazzi/constants/themes.dart';
 import 'package:go_router/go_router.dart';
 
 class ScaffoldWithNavigation extends StatefulWidget {
@@ -16,73 +18,123 @@ class ScaffoldWithNavigation extends StatefulWidget {
 }
 
 class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
-  int _selectedIndex = 0;
-
   // Navigation labels/icons
   final List<_NavItem> navItems = [
-    _NavItem("Home", Icons.home),
-    _NavItem("Corsi", Icons.menu_book),
-    _NavItem("Knowledge", Icons.book),
-    _NavItem("Profilo", Icons.person),
+    _NavItem(0, "Home", Icons.home_outlined),
+    _NavItem(1, "Corsi", Icons.menu_book_outlined),
+    _NavItem(2, "Knowledge", Icons.book_outlined),
+    _NavItem(3, "Profilo", Icons.person_outlined),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final palette = Theme.of(context).extension<CustomPalette>()!;
+    final appTextStyles =
+        Theme.of(context).extension<AppThemeExtension>()!.textStyles;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         bool isWide = constraints.maxWidth >= 800;
 
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            automaticallyImplyLeading: !isWide,
-            leading: isWide ? Image.asset('assets/images/logo.png') : null,
-            title:
-                isWide
-                    ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:
-                          navItems
-                              .asMap()
-                              .entries
-                              .map(
-                                (entry) => IconButton(
-                                  icon: Icon(
-                                    entry.value.icon,
-                                    color:
-                                        _selectedIndex == entry.key
-                                            ? Colors.blue[900]
-                                            : Colors.grey,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(70),
+            child: AppBar(
+              backgroundColor: palette.grey100,
+              elevation: 0,
+              title:
+                  isWide
+                      ? Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Image.asset(
+                                'assets/images/logo.png',
+                                height: 36,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  ...navItems.asMap().entries.map(
+                                    (entry) => IconButton(
+                                      icon: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            entry.value.icon,
+                                            color:
+                                                widget.navigationShell.currentIndex == entry.key
+                                                    ? palette.primary800
+                                                    : palette.grey300,
+                                          ),
+                                          Text(
+                                            entry.value.label,
+                                            style: appTextStyles.headingS
+                                                .copyWith(
+                                                  color:
+                                                      widget.navigationShell.currentIndex ==
+                                                              entry.key
+                                                          ? palette.primary800
+                                                          : palette.grey300,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                      tooltip: entry.value.label,
+                                      onPressed: () => _onTap(entry.value.id),
+                                    ),
                                   ),
-                                  tooltip: entry.value.label,
-                                  onPressed: () => _onTap(entry.key),
-                                ),
-                              )
-                              .toList(),
-                    )
-                    : Text(
-                      "Telepass",
-                      style: TextStyle(color: Colors.blue[900]),
-                    ),
-            centerTitle: isWide,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.info_outline),
-                color: Colors.grey,
-                onPressed: () {
-                  // Info
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.notifications_none),
-                color: Colors.grey,
-                onPressed: () {
-                  // Notifications
-                },
-              ),
-            ],
-            iconTheme: const IconThemeData(color: Colors.grey),
+                                ],
+                              ),
+                            ),
+                            Expanded(child: Container()),
+                          ],
+                        ),
+                      )
+                      : Text(
+                        "Telepass",
+                        style: TextStyle(color: Colors.blue[900]),
+                      ),
+              centerTitle: isWide,
+              actions: [
+                Padding(
+                  padding: EdgeInsets.only(right: isWide ? 100 : 0, top: 16),
+                  child: Row(
+                    children: [
+                      if (isWide)
+                        VerticalDivider(
+                          width: 1,
+                          thickness: 1,
+                          color: palette.grey0,
+                        ),
+                      if (isWide) SizedBox(width: 16),
+                      IconButton(
+                        icon: const Icon(Icons.info_outline),
+                        color: palette.grey1000,
+                        onPressed: () {
+                          // Info
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.notifications_none),
+                        color: palette.grey1000,
+                        onPressed: () {
+                          // Notifications
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              iconTheme: const IconThemeData(color: Colors.grey),
+            ),
           ),
           drawer:
               isWide
@@ -101,6 +153,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                           return ListTile(
                             leading: Icon(entry.value.icon),
                             title: Text(entry.value.label),
+                            selected: widget.navigationShell.currentIndex == entry.key,
                             onTap: () => _onTap(entry.key),
                           );
                         }),
@@ -119,15 +172,13 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
       index,
       initialLocation: index == widget.navigationShell.currentIndex,
     );
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 }
 
 class _NavItem {
+  final int id;
   final String label;
   final IconData icon;
 
-  _NavItem(this.label, this.icon);
+  _NavItem(this.id, this.label, this.icon);
 }
