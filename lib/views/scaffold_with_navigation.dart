@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghiazzi/components/custom_search_bar.dart';
 import 'package:ghiazzi/constants/colors.dart';
 import 'package:ghiazzi/constants/themes.dart';
 import 'package:ghiazzi/models/notification_model.dart';
@@ -301,6 +302,12 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                if (widget.navigationShell.currentIndex < 2)
+                  CustomSearchBar(
+                    label: _getSearchBarLabel(
+                      widget.navigationShell.currentIndex,
+                    ),
+                  ),
                 Expanded(
                   child: Center(
                     child: SingleChildScrollView(child: widget.navigationShell),
@@ -332,7 +339,17 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
         );
       },
     );
+  }
 
-    // (moved _onTap and _NavItem above)
+  String _getSearchBarLabel(int index) {
+    switch (index) {
+      case 0:
+        return 'Benvenuto!'; // Home page label
+      case 1:
+        return 'Corsi'; // Courses page label
+      // Add more cases for other pages if needed
+      default:
+        return 'Cerca';
+    }
   }
 }
