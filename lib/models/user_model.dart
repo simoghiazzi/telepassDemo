@@ -35,6 +35,19 @@ class UserModel {
     tokenExpDate: json['tokenExpDate'],
     personalData: PersonalData.fromJson(json['personalData']),
   );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'createdAt': createdAt,
+    'updatedAt': updatedAt,
+    'deletedAt': deletedAt,
+    'email': email,
+    'username': username,
+    'age': age,
+    'token': token,
+    'tokenExpDate': tokenExpDate,
+    'personalData': personalData.toJson(),
+  };
 }
 
 class PersonalData {
@@ -68,4 +81,16 @@ class PersonalData {
     birthDate: json['birthDate'],
     gender: json['gender'],
   );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'createdAt': createdAt,
+    'updatedAt': updatedAt,
+    'deletedAt': deletedAt,
+    'lastName': lastName,
+    'firstName': firstName,
+    'birthDate': birthDate,
+    'gender': gender,
+  };
+
 }

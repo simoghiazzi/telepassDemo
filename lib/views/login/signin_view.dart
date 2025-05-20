@@ -254,7 +254,7 @@ class _LoginViewState extends State<SigninView> {
                                   bloc: signinViewModel,
                                   listener: (context, state) {
                                     if (state is SigninSuccess) {
-                                      context.push('/home');
+                                      context.go('/home');
                                     }
                                   },
                                   builder: (context, state) {

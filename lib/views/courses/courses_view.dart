@@ -5,6 +5,6 @@ class CoursesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: const Text('Courses'));
+    return const Text('Courses');
   }
 }

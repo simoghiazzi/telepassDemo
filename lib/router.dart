@@ -1,4 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghiazzi/repositories/faq_repository.dart';
+import 'package:ghiazzi/repositories/notifications_repository.dart';
+import 'package:ghiazzi/viewmodels/faq_view_model.dart';
+import 'package:ghiazzi/viewmodels/notifications_view_model.dart';
 import 'package:ghiazzi/views/courses/courses_view.dart';
 import 'package:ghiazzi/views/homepage/home_view.dart';
 import 'package:ghiazzi/views/login/signin_view.dart';
@@ -27,9 +32,21 @@ class AppRouter {
           builder: (context, state, navigationShell) {
             // Return the widget that implements the custom shell (e.g a BottomNavigationBar).
             // The [StatefulNavigationShell] is passed to be able to navigate to other branches in a stateful way.
-            return ScaffoldWithNavigation(
-              navigationShell: navigationShell,
-              state: state,
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<NotificationsViewModel>(
+                  create:
+                      (context) =>
+                          NotificationsViewModel(NotificationsRepository()),
+                ),
+                BlocProvider<FaqViewModel>(
+                  create: (context) => FaqViewModel(FaqRepository()),
+                ),
+              ],
+              child: ScaffoldWithNavigation(
+                navigationShell: navigationShell,
+                state: state,
+              ),
             );
           },
           branches: [

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ghiazzi/components/custom_search_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghiazzi/constants/colors.dart';
 import 'package:ghiazzi/constants/themes.dart';
+import 'package:ghiazzi/models/notification_model.dart';
+import 'package:ghiazzi/views/faq_drawer.dart';
+import 'package:ghiazzi/models/faq_model.dart';
+import 'package:ghiazzi/viewmodels/faq_view_model.dart';
+import 'package:ghiazzi/viewmodels/notifications_view_model.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ghiazzi/viewmodels/user_session.dart';
 
 class ScaffoldWithNavigation extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -18,6 +24,14 @@ class ScaffoldWithNavigation extends StatefulWidget {
   State<ScaffoldWithNavigation> createState() => _ScaffoldWithNavigationState();
 }
 
+class _NavItem {
+  final int id;
+  final String label;
+  final IconData icon;
+
+  _NavItem(this.id, this.label, this.icon);
+}
+
 class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
   // Navigation labels/icons
   final List<_NavItem> navItems = [
@@ -26,6 +40,61 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
     _NavItem(2, "Knowledge", Icons.book_outlined),
     _NavItem(3, "Profilo", Icons.person_outlined),
   ];
+
+  void _onTap(int index) {
+    widget.navigationShell.goBranch(
+      index,
+      initialLocation: index == widget.navigationShell.currentIndex,
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await UserSession().restoreSession();
+      if (UserSession().currentUser == null && mounted) {
+        GoRouter.of(context).go('/login');
+      }
+    });
+    context.read<FaqViewModel>().getFaq();
+    context.read<NotificationsViewModel>().getNotifications();
+  }
+
+  void showFaqDrawer(BuildContext context, List<FaqModel> faqs) {
+    showGeneralDialog(
+      context: context,
+      barrierLabel: "FAQ",
+      barrierDismissible: true,
+      barrierColor: Theme.of(
+        context,
+      ).extension<CustomPalette>()!.grey500.withAlpha(100),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Align(
+          alignment: Alignment.centerRight,
+          child: Material(
+            color: Colors.transparent,
+            child: SizedBox(
+              width: 500,
+              height: double.infinity,
+              child: FaqDrawer(
+                faqs: faqs,
+                onClose: () => Navigator.of(context).pop(),
+              ),
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final offsetAnimation = Tween<Offset>(
+          begin: const Offset(1.0, 0.0),
+          end: Offset.zero,
+        ).animate(animation);
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +182,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
               centerTitle: isWide,
               actions: [
                 Padding(
-                  padding: EdgeInsets.only(right: isWide ? 120 : 0, top: 16),
+                  padding: EdgeInsets.only(right: isWide ? 100 : 0, top: 16),
                   child: Row(
                     children: [
                       if (isWide)
@@ -123,18 +192,62 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                           color: palette.grey0,
                         ),
                       if (isWide) SizedBox(width: 16),
-                      IconButton(
-                        icon: const Icon(Icons.info_outline),
-                        color: palette.grey1000,
-                        onPressed: () {
-                          // Info
+                      BlocBuilder<FaqViewModel, FaqState>(
+                        bloc: context.read<FaqViewModel>(),
+                        builder: (context, state) {
+                          return IconButton(
+                            icon: const Icon(Icons.info_outline),
+                            color: palette.grey1000,
+                            onPressed: () {
+                              if (state is FaqSuccess) {
+                                showFaqDrawer(context, state.faqs);
+                              }
+                            },
+                          );
                         },
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.notifications_none),
-                        color: palette.grey1000,
-                        onPressed: () {
-                          // Notifications
+                      BlocBuilder<NotificationsViewModel, NotificationsState>(
+                        bloc: context.read<NotificationsViewModel>(),
+                        builder: (context, state) {
+                          if (state is NotificationsSuccess) {
+                            final List<NotificationModel> notifications =
+                                state.notifications;
+                            return Stack(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.notifications_none),
+                                  color: palette.grey1000,
+                                  onPressed: () {
+                                    // Notifications
+                                  },
+                                ),
+                                if (notifications.isNotEmpty)
+                                  Positioned(
+                                    right: 10,
+                                    top: 12,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      constraints: const BoxConstraints(
+                                        minWidth: 8,
+                                        minHeight: 8,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            );
+                          } else {
+                            return IconButton(
+                              icon: const Icon(Icons.notifications_none),
+                              color: palette.grey1000,
+                              onPressed: () {
+                                // Notifications
+                              },
+                            );
+                          }
                         },
                       ),
                     ],
@@ -153,10 +266,6 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                                 icon: const Icon(Icons.menu),
                                 onPressed:
                                     () => Scaffold.of(context).openDrawer(),
-                                tooltip:
-                                    MaterialLocalizations.of(
-                                      context,
-                                    ).openAppDrawerTooltip,
                               ),
                         ),
                       ),
@@ -192,12 +301,6 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                if (widget.navigationShell.currentIndex < 2)
-                  CustomSearchBar(
-                    label: _getSearchBarLabel(
-                      widget.navigationShell.currentIndex,
-                    ),
-                  ),
                 Expanded(
                   child: Center(
                     child: SingleChildScrollView(child: widget.navigationShell),
@@ -229,32 +332,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
         );
       },
     );
+
+    // (moved _onTap and _NavItem above)
   }
-
-  String _getSearchBarLabel(int index) {
-    switch (index) {
-      case 0:
-        return 'Benvenuto!'; // Home page label
-      case 1:
-        return 'Corsi'; // Courses page label
-      // Add more cases for other pages if needed
-      default:
-        return 'Cerca';
-    }
-  }
-
-  void _onTap(index) {
-    widget.navigationShell.goBranch(
-      index,
-      initialLocation: index == widget.navigationShell.currentIndex,
-    );
-  }
-}
-
-class _NavItem {
-  final int id;
-  final String label;
-  final IconData icon;
-
-  _NavItem(this.id, this.label, this.icon);
 }
