@@ -29,36 +29,40 @@ class NotificationsRepository {
     //Mocking awaiting for the API response
     await Future.delayed(const Duration(seconds: 1));
 
+    // we simulate that the first two notifications are today, the last three are this week
+    final now = DateTime.now();
+    final threeDaysAgo = now.subtract(const Duration(days: 3));
+
     return {
       "notifications": [
         {
           "title": "CORSO IN SCADENZA",
           "body": "Progettazione e sviluppo di sistemi di pedaggio elettronico",
-          "createdAt": "2025-05-19T09:00:00.000Z",
+          "createdAt": now.toIso8601String(),
           "category": "expiring",
         },
         {
           "title": "BADGE IN ARRIVO",
           "body": "Complimenti, hai completato 25 corsi!",
-          "createdAt": "2025-05-19T08:00:00.000Z",
+          "createdAt": now.toIso8601String(),
           "category": "achievement",
         },
         {
           "title": "NUOVO CORSO CARICATO",
           "body": "Progettazione e sviluppo di sistemi di pedaggio elettronico",
-          "createdAt": "2025-05-17T10:00:00.000Z",
+          "createdAt": threeDaysAgo.toIso8601String(),
           "category": "update",
         },
         {
           "title": "NUOVO DOCUMENTO CARICATO",
           "body": "Come modificare la targa associata al dispositivo Telepass",
-          "createdAt": "2025-05-16T11:00:00.000Z",
+          "createdAt": threeDaysAgo.toIso8601String(),
           "category": "update",
         },
         {
           "title": "CORSO IN SCADENZA",
           "body": "Progettazione e sviluppo di sistemi di pedaggio elettronico",
-          "createdAt": "2025-05-15T09:00:00.000Z",
+          "createdAt": threeDaysAgo.toIso8601String(),
           "category": "expiring",
         },
       ],

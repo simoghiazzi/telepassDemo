@@ -50,7 +50,10 @@ class _CustomDropdownState extends State<CustomDropdown> {
               onTap: () => setState(() => _expanded = !_expanded),
             ),
             if (_expanded)
-              Text(widget.content, style: appTextStyles.paragraphM),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(widget.content, style: appTextStyles.paragraphM),
+              ),
           ],
         ),
       ),

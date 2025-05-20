@@ -4,7 +4,8 @@ import 'package:ghiazzi/components/custom_search_bar.dart';
 import 'package:ghiazzi/constants/colors.dart';
 import 'package:ghiazzi/constants/themes.dart';
 import 'package:ghiazzi/models/notification_model.dart';
-import 'package:ghiazzi/views/faq_drawer.dart';
+import 'package:ghiazzi/components/drawers/faq_drawer.dart';
+import 'package:ghiazzi/components/drawers/notifications_drawer.dart';
 import 'package:ghiazzi/models/faq_model.dart';
 import 'package:ghiazzi/viewmodels/faq_view_model.dart';
 import 'package:ghiazzi/viewmodels/notifications_view_model.dart';
@@ -63,6 +64,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
   }
 
   void showFaqDrawer(BuildContext context, List<FaqModel> faqs) {
+    // Only one drawer at a time: close notifications drawer if open (handled by pop)
     showGeneralDialog(
       context: context,
       barrierLabel: "FAQ",
@@ -81,6 +83,45 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
               height: double.infinity,
               child: FaqDrawer(
                 faqs: faqs,
+                onClose: () => Navigator.of(context).pop(),
+              ),
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final offsetAnimation = Tween<Offset>(
+          begin: const Offset(1.0, 0.0),
+          end: Offset.zero,
+        ).animate(animation);
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
+    );
+  }
+
+  void showNotificationsDrawer(
+    BuildContext context,
+    List<NotificationModel> notifications,
+  ) {
+    // Only one drawer at a time: close FAQ drawer if open (handled by pop)
+    showGeneralDialog(
+      context: context,
+      barrierLabel: "Notifiche",
+      barrierDismissible: true,
+      barrierColor: Theme.of(
+        context,
+      ).extension<CustomPalette>()!.grey500.withAlpha(100),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Align(
+          alignment: Alignment.centerRight,
+          child: Material(
+            color: Colors.transparent,
+            child: SizedBox(
+              width: 500,
+              height: double.infinity,
+              child: NotificationsDrawer(
+                notifications: notifications,
                 onClose: () => Navigator.of(context).pop(),
               ),
             ),
@@ -219,7 +260,10 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                                   icon: const Icon(Icons.notifications_none),
                                   color: palette.grey1000,
                                   onPressed: () {
-                                    // Notifications
+                                    showNotificationsDrawer(
+                                      context,
+                                      notifications,
+                                    );
                                   },
                                 ),
                                 if (notifications.isNotEmpty)
@@ -245,7 +289,9 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                               icon: const Icon(Icons.notifications_none),
                               color: palette.grey1000,
                               onPressed: () {
-                                // Notifications
+                                context
+                                    .read<NotificationsViewModel>()
+                                    .getNotifications();
                               },
                             );
                           }

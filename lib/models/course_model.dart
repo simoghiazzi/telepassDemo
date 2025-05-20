@@ -31,4 +31,20 @@ class CourseModel {
     }
     return null;
   }
+
+  factory CourseModel.fromJson(Map<String, dynamic> json) {
+    return CourseModel(
+      id: json['id'],
+      title: json['title'],
+      category: json['category'],
+      modulesCount: json['modulesCount'],
+      points: json['points'],
+      dueDate: json['dueDate'],
+      status: json['status'],
+      imageUrl: json['imageUrl'],
+      isFavorite: json['isFavorite'],
+      completedModules: json['completedModules'],
+      totalModules: json['totalModules'],
+    );
+  }
 }
