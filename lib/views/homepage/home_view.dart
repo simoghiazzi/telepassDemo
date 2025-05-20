@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ghiazzi/components/reels/reel.dart';
 import 'package:ghiazzi/constants/colors.dart';
 import 'package:ghiazzi/constants/themes.dart';
+import 'package:ghiazzi/models/reel_model.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -17,14 +19,24 @@ class HomeView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Inserisci le tue credenziali',
+              'Le novità del mondo Telepass',
               style: appTextStyles.headingL,
               textAlign: TextAlign.left,
             ),
             Text(
-              'per accedere al tuo account',
-              style: appTextStyles.headingL,
+              'Rimani aggiornato su tutte le nostre attività',
+              style: appTextStyles.headingS.copyWith(
+                fontWeight: FontWeight.normal,
+              ),
               textAlign: TextAlign.left,
+            ),
+            Reel(
+              reel: ReelModel(
+                id: "1",
+                title: "Test1",
+                imageUrl: "assets/images/reels/test1.png",
+                highlighted: true,
+              ),
             ),
           ],
         ),

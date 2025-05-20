@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghiazzi/models/notification_model.dart';
 import 'package:ghiazzi/repositories/notifications_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class NotificationsState {}
 
@@ -24,9 +25,11 @@ class NotificationsViewModel extends Cubit<NotificationsState> {
   NotificationsViewModel(this.notificationsRepository)
     : super(NotificationsInitial());
 
-  Future<void> getNotifications(String token) async {
+  Future<void> getNotifications() async {
     emit(NotificationsLoading());
+    final prefs = await SharedPreferences.getInstance();
     try {
+      String token = prefs.getString('userToken')!;
       final response = await notificationsRepository.getNotifications(token);
       final notifications =
           (response['notifications'] as List)

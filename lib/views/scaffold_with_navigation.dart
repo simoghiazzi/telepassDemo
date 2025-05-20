@@ -103,9 +103,12 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                           ],
                         ),
                       )
-                      : Text(
-                        "Telepass",
-                        style: TextStyle(color: Colors.blue[900]),
+                      : Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          height: 24,
+                        ),
                       ),
               centerTitle: isWide,
               actions: [
@@ -139,6 +142,24 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                 ),
               ],
               iconTheme: const IconThemeData(color: Colors.grey),
+              leading:
+                  isWide
+                      ? null
+                      : Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Builder(
+                          builder:
+                              (context) => IconButton(
+                                icon: const Icon(Icons.menu),
+                                onPressed:
+                                    () => Scaffold.of(context).openDrawer(),
+                                tooltip:
+                                    MaterialLocalizations.of(
+                                      context,
+                                    ).openAppDrawerTooltip,
+                              ),
+                        ),
+                      ),
             ),
           ),
           drawer:

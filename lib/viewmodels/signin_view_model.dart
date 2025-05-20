@@ -3,6 +3,7 @@ import 'package:ghiazzi/models/user_model.dart';
 import 'package:ghiazzi/repositories/sign_in_repository.dart';
 import 'package:ghiazzi/utils/utils.dart';
 import 'package:ghiazzi/viewmodels/user_session.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SigninState {}
 
@@ -66,6 +67,10 @@ class SigninViewModel extends Cubit<SigninState> {
       UserModel user = UserModel.fromJson(data);
 
       UserSession().setUser(user);
+
+      //The try-catch structure gives us the ooportunity to check non-nullabikity of the token
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userToken', user.token!);
 
       emit(SigninSuccess());
     } catch (e) {

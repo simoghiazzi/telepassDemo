@@ -4,7 +4,7 @@ class NotificationsRepository {
 
     // try {
     //    Response response = await dio.get(
-    //     '$baseUrl/regular-users/me/notifications/unread',
+    //     '$baseUrl/notifications/unread',
     //     options: Options(
     //       headers: {
     //         'authorization': 'Bearer $token',
@@ -16,7 +16,7 @@ class NotificationsRepository {
     //     final data = response.data as Map<String, dynamic>;
     //     return data;
     //   } else {
-    //     throw Exception('Failed gettin notifications: ${response.data}');
+    //     throw Exception('Failed getting notifications: ${response.data}');
     //   }
     // } on DioException catch (e) {
     //   if (e.response != null && e.response?.data != null) {
