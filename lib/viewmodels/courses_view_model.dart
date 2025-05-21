@@ -40,6 +40,22 @@ class CoursesViewModel extends Cubit<CoursesState> {
     }
   }
 
+  Future<void> getHighlightCourses() async {
+    emit(CoursesLoading());
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      String token = prefs.getString('userToken') ?? '';
+      final response = await coursesRepository.getHighlightCourses(token);
+      final courses =
+          (response['courses'] as List)
+              .map((course) => CourseModel.fromJson(course))
+              .toList();
+      emit(CoursesSuccess(courses));
+    } catch (e) {
+      emit(CoursesError(e.toString()));
+    }
+  }
+
   Future<void> toggleFavourite(int courseId) async {
     if (state is CoursesSuccess) {
       final currentCourses = (state as CoursesSuccess).courses;

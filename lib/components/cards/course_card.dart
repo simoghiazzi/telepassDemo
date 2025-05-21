@@ -137,12 +137,6 @@ class CourseCard extends StatelessWidget {
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(
-                                      Icons.view_module,
-                                      color: palette.grey600,
-                                      size: iconSizeMeta,
-                                    ),
-                                    SizedBox(width: 2),
                                     Text(
                                       '${course.modulesCount} moduli',
                                       style: appTextStyles.paragraphS.copyWith(
