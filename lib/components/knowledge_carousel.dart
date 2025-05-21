@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghiazzi/components/cards/knowledge_card.dart';
 import 'package:ghiazzi/constants/colors.dart';
+import 'package:ghiazzi/utils/desktop_scroll_behavior.dart';
 
 import 'package:ghiazzi/viewmodels/knowledge_view_model.dart';
 
@@ -101,31 +102,34 @@ class _KnowledgeCarouselState extends State<KnowledgeCarousel> {
                             },
                             child: SizedBox(
                               height: 150,
-                              child: ListView.builder(
-                                controller: _scrollController,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: total,
-                                itemBuilder: (context, index) {
-                                  return SizedBox(
-                                    width: cardWidth,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: padding,
-                                      ),
-                                      child: SizedBox(
-                                        height: 220,
-                                        child: KnowledgeCard(
-                                          knowledge: knowledge[index],
-                                          onFavouriteToggle: (knowledgeId) {
-                                            context
-                                                .read<KnowledgeViewModel>()
-                                                .toggleFavourite(knowledgeId);
-                                          },
+                              child: ScrollConfiguration(
+                                behavior: DesktopScrollBehavior(),
+                                child: ListView.builder(
+                                  controller: _scrollController,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: total,
+                                  itemBuilder: (context, index) {
+                                    return SizedBox(
+                                      width: cardWidth,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: padding,
+                                        ),
+                                        child: SizedBox(
+                                          height: 220,
+                                          child: KnowledgeCard(
+                                            knowledge: knowledge[index],
+                                            onFavouriteToggle: (knowledgeId) {
+                                              context
+                                                  .read<KnowledgeViewModel>()
+                                                  .toggleFavourite(knowledgeId);
+                                            },
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
