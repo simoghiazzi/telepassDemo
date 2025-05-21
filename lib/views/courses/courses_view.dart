@@ -118,16 +118,51 @@ class _CoursesViewState extends State<CoursesView> {
                   const Center(child: Text('Nessun corso trovato.')),
                 );
               } else {
-                children.addAll(
-                  filteredCourses.map(
-                    (course) => CourseCard(
-                      course: course,
-                      onFavouriteToggle: (courseId) {
-                        context.read<CoursesViewModel>().toggleFavourite(
-                          courseId,
-                        );
-                      },
-                    ),
+                children.add(
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      int crossAxisCount = 1;
+                      double width = constraints.maxWidth;
+
+                      //As usual, we address responsiveness for smaller screens
+                      if (width >= 1000) {
+                        crossAxisCount = 3;
+                      } else if (width >= 600) {
+                        crossAxisCount = 2;
+                      }
+
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 0,
+                          vertical: 8,
+                        ),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: crossAxisCount,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          childAspectRatio:
+                              crossAxisCount == 1
+                                  ? 2.5
+                                  : crossAxisCount == 2
+                                  ? 2
+                                  : 1.5,
+                        ),
+                        itemCount: filteredCourses.length,
+                        itemBuilder: (context, index) {
+                          final course = filteredCourses[index];
+                          return CourseCard(
+                            course: course,
+                            onFavouriteToggle: (courseId) {
+                              context.read<CoursesViewModel>().toggleFavourite(
+                                courseId,
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
                   ),
                 );
               }
