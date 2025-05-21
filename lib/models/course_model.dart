@@ -1,5 +1,5 @@
 class CourseModel {
-  final String id;
+  final int id;
   final String title;
   final String category;
   final int modulesCount;
@@ -10,6 +10,8 @@ class CourseModel {
   final bool isFavorite;
   final int? completedModules;
   final int? totalModules;
+  final bool? isMandatory;
+  final bool? isOptional;
 
   CourseModel({
     required this.id,
@@ -23,6 +25,8 @@ class CourseModel {
     this.isFavorite = false,
     this.completedModules,
     this.totalModules,
+    this.isMandatory,
+    this.isOptional,
   });
 
   double? get progress {
@@ -45,6 +49,8 @@ class CourseModel {
       isFavorite: json['isFavorite'],
       completedModules: json['completedModules'],
       totalModules: json['totalModules'],
+      isMandatory: json['isMandatory'],
+      isOptional: json['isOptional'],
     );
   }
 }

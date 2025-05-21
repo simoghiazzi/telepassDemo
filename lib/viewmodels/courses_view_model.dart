@@ -30,12 +30,25 @@ class CoursesViewModel extends Cubit<CoursesState> {
     try {
       String token = prefs.getString('userToken') ?? '';
       final response = await coursesRepository.getCourses(token);
-      final courses = (response['courses'] as List)
-          .map((course) => CourseModel.fromJson(course))
-          .toList();
+      final courses =
+          (response['courses'] as List)
+              .map((course) => CourseModel.fromJson(course))
+              .toList();
       emit(CoursesSuccess(courses));
     } catch (e) {
       emit(CoursesError(e.toString()));
+    }
+  }
+
+  Future<void> toggleFavourite(int courseId) async {
+    if (state is CoursesSuccess) {
+      final currentCourses = (state as CoursesSuccess).courses;
+      // Simulate update via repository
+      final updatedCourses = await coursesRepository.toggleFavourite(
+        courseId,
+        currentCourses,
+      );
+      emit(CoursesSuccess(updatedCourses));
     }
   }
 }

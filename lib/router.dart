@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghiazzi/repositories/courses_repository.dart';
 import 'package:ghiazzi/repositories/faq_repository.dart';
 import 'package:ghiazzi/repositories/notifications_repository.dart';
+import 'package:ghiazzi/viewmodels/courses_view_model.dart';
 import 'package:ghiazzi/viewmodels/faq_view_model.dart';
 import 'package:ghiazzi/viewmodels/notifications_view_model.dart';
 import 'package:ghiazzi/views/courses/courses_view.dart';
@@ -41,6 +43,9 @@ class AppRouter {
                 ),
                 BlocProvider<FaqViewModel>(
                   create: (context) => FaqViewModel(FaqRepository()),
+                ),
+                BlocProvider<CoursesViewModel>(
+                  create: (context) => CoursesViewModel(CoursesRepository()),
                 ),
               ],
               child: ScaffoldWithNavigation(
