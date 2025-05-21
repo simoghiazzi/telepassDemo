@@ -22,12 +22,12 @@ class CoursesRepository {
     List<String> statuses = ["active", "completed", "pending"];
 
     List<String> images = [
-      "https://picsum.photos/200/300?random=1",
-      "https://picsum.photos/200/300?random=2",
-      "https://picsum.photos/200/300?random=3",
-      "https://picsum.photos/200/300?random=4",
-      "https://picsum.photos/200/300?random=5",
-      "https://picsum.photos/200/300?random=6",
+      "assets/images/test/test1.png",
+      "assets/images/test/test2.png",
+      "assets/images/test/test3.png",
+      "assets/images/test/test4.png",
+      "assets/images/test/test5.png",
+      "assets/images/test/test6.png",
     ];
 
     List<Map<String, dynamic>> courses = List.generate(18, (i) {

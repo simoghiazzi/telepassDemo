@@ -69,7 +69,6 @@ class CourseCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // IMAGE + PLAY BUTTON
                     Stack(
                       alignment: Alignment.center,
                       children: [
@@ -81,7 +80,7 @@ class CourseCard extends StatelessWidget {
                           child: SizedBox(
                             width: imageWidth,
                             height: double.infinity,
-                            child: Image.network(
+                            child: Image.asset(
                               course.imageUrl,
                               fit: BoxFit.cover,
                             ),
@@ -104,7 +103,6 @@ class CourseCard extends StatelessWidget {
                       ],
                     ),
                     SizedBox(width: isSmallScreen ? 8 : 16),
-                    // MAIN CONTENT
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.all(contentPadding),
@@ -112,7 +110,6 @@ class CourseCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // CATEGORY PILL
                             Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: isSmallScreen ? 7 : 12,
@@ -133,7 +130,6 @@ class CourseCard extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: isSmallScreen ? 4 : 8),
-                            // MODULES & POINTS
                             Wrap(
                               spacing: isSmallScreen ? 6 : 10,
                               crossAxisAlignment: WrapCrossAlignment.center,
@@ -177,7 +173,6 @@ class CourseCard extends StatelessWidget {
                               ],
                             ),
                             SizedBox(height: isSmallScreen ? 2 : 4),
-                            // COURSE TITLE
                             Text(
                               course.title,
                               maxLines: 2,
@@ -189,7 +184,6 @@ class CourseCard extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: isSmallScreen ? 3 : 6),
-                            // STATUS/DATE
                             Row(
                               children: [
                                 if (course.status == 'completed' &&
@@ -234,7 +228,6 @@ class CourseCard extends StatelessWidget {
                               ],
                             ),
                             SizedBox(height: isSmallScreen ? 4 : 8),
-                            // PROGRESS BAR
                             LinearProgressIndicator(
                               value: course.progress ?? 0,
                               minHeight: isSmallScreen ? 3 : 5,
@@ -251,7 +244,6 @@ class CourseCard extends StatelessWidget {
                   ],
                 ),
               ),
-              // FAVORITE STAR (top right)
               Positioned(
                 top: isSmallScreen ? 4 : 10,
                 right: isSmallScreen ? 6 : 14,
@@ -266,6 +258,7 @@ class CourseCard extends StatelessWidget {
                     color: palette.primary800,
                     size: starSize,
                   ),
+                  hoverColor: Colors.transparent,
                 ),
               ),
             ],

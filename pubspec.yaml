@@ -29,6 +29,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/test/
+    - assets/images/slide/
 
   fonts:
     - family: DMSans

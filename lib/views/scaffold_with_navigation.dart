@@ -205,6 +205,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                                       ),
                                       tooltip: entry.value.label,
                                       onPressed: () => _onTap(entry.value.id),
+                                      hoverColor: Colors.transparent,
                                     ),
                                   ),
                                 ],
@@ -354,9 +355,20 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                       widget.navigationShell.currentIndex,
                     ),
                   ),
+                const SizedBox(height: 16),
                 Expanded(
                   child: SingleChildScrollView(
-                    child: Column(children: [widget.navigationShell]),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(child: Container()),
+                            Expanded(flex: 10, child: widget.navigationShell),
+                            Expanded(child: Container()),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

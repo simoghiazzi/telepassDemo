@@ -46,7 +46,6 @@ class _CoursesViewState extends State<CoursesView> {
         return BlocBuilder<CoursesViewModel, CoursesState>(
           builder: (context, state) {
             List<Widget> children = [
-              const SizedBox(height: 16),
               CustomLabel(
                 labels: courseLabels,
                 selected: selectedLabel,
@@ -168,17 +167,7 @@ class _CoursesViewState extends State<CoursesView> {
               }
             }
 
-            return Row(
-              children: [
-                Expanded(child: Container()),
-                Expanded(flex: 10, child: Column(children: children)),
-                Expanded(child: Container()),
-              ],
-            );
-            // return ListView(
-            //   padding: const EdgeInsets.all(16),
-            //   children: children,
-            // );
+            return Column(children: children);
           },
         );
       },

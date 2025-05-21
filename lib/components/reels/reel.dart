@@ -6,7 +6,7 @@ class Reel extends StatelessWidget {
   final VoidCallback? onTap;
   final double size;
 
-  const Reel({super.key, required this.reel, this.onTap, this.size = 96.0});
+  const Reel({super.key, required this.reel, this.onTap, this.size = 112.0});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class Reel extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ClipOval(
-                child: Image.network(
+                child: Image.asset(
                   reel.imageUrl,
                   fit: BoxFit.cover,
                   width: size,
