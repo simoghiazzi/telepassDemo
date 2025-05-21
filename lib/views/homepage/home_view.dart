@@ -17,6 +17,7 @@ import 'package:ghiazzi/utils/desktop_scroll_behavior.dart';
 import 'package:ghiazzi/components/courses_carousel.dart';
 import 'package:ghiazzi/viewmodels/courses_view_model.dart';
 import 'package:ghiazzi/repositories/courses_repository.dart';
+import '../../components/user_score.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -214,6 +215,42 @@ class HomeView extends StatelessWidget {
           children: [
             Expanded(child: Container()),
             Expanded(
+              flex: 10,
+              child: Column(
+                children: [
+                  const SizedBox(height: 32),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Knowledge in evidenza',
+                          style: appTextStyles.headingL,
+                          textAlign: TextAlign.left,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Arricchisci la tua conoscenza dell\'ecosistema Telepass',
+                          style: appTextStyles.headingS.copyWith(
+                            fontWeight: FontWeight.normal,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        const SizedBox(height: 32),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(child: Container()),
+            Expanded(
               flex: 20,
               child:
               // Corsi in evidenza - Carousel
@@ -252,6 +289,73 @@ class HomeView extends StatelessWidget {
             ),
             Expanded(child: Container()),
           ],
+        ),
+        Row(
+          children: [
+            Expanded(child: Container()),
+            Expanded(
+              flex: 10,
+              child: Column(
+                children: [
+                  const SizedBox(height: 32),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Classifica',
+                          style: appTextStyles.headingL,
+                          textAlign: TextAlign.left,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Continua a migliorarti partecipando sempre a nuove sfide',
+                          style: appTextStyles.headingS.copyWith(
+                            fontWeight: FontWeight.normal,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        const SizedBox(height: 32),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(child: Container()),
+            Expanded(
+              flex: 10,
+              child:
+              // Corsi in evidenza - Carousel
+              Column(children: [const UserScore(), const SizedBox(height: 32)]),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+        Container(
+          color: palette.primary1000,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset('assets/images/logo.png', height: 32),
+              const SizedBox(height: 8),
+              Text(
+                'Sede legale: Via Laurentina, 449 - 00142 Roma (RM)\nP.IVA 09771701001 - Certificato ISO9001 e ISO27001',
+                style: appTextStyles.paragraphS.copyWith(
+                  color: palette.grey400,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ],
     );

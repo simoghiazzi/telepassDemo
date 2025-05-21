@@ -5,7 +5,11 @@ import 'package:ghiazzi/repositories/sign_in_repository.dart';
 import 'package:ghiazzi/router.dart';
 import 'package:ghiazzi/viewmodels/signin_view_model.dart';
 
+import 'package:ghiazzi/viewmodels/user_session.dart';
+
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await UserSession().restoreSession();
   runApp(
     BlocProvider<SigninViewModel>(
       create: (BuildContext context) => SigninViewModel(SigninRepository()),
@@ -17,7 +21,6 @@ void main() async {
 Future<Widget> initializeApp() async {
   final initialRoute = '/login';
 
-  // Return the main app wrapped in Sizer.
   return Ghiazzi(initialRoute: initialRoute);
 }
 

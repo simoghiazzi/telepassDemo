@@ -71,7 +71,12 @@ class _CoursesViewState extends State<CoursesView> {
             ];
 
             if (state is CoursesLoading) {
-              children.add(const Center(child: CircularProgressIndicator()));
+              children.add(
+                SizedBox(
+                  height: 500,
+                  child: const Center(child: CircularProgressIndicator()),
+                ),
+              );
             } else if (state is CoursesError) {
               children.add(Center(child: Text('Errore: \\${state.error}')));
             } else if (state is CoursesSuccess) {
@@ -167,11 +172,34 @@ class _CoursesViewState extends State<CoursesView> {
               }
             }
 
-            return Row(
+            return Column(
               children: [
-                Expanded(child: Container()),
-                Expanded(flex: 10, child: Column(children: children)),
-                Expanded(child: Container()),
+                Row(
+                  children: [
+                    Expanded(child: Container()),
+                    Expanded(flex: 10, child: Column(children: children)),
+                    Expanded(child: Container()),
+                  ],
+                ),
+                Container(
+                  color: palette.primary1000,
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset('assets/images/logo.png', height: 32),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Sede legale: Via Laurentina, 449 - 00142 Roma (RM)\nP.IVA 09771701001 - Certificato ISO9001 e ISO27001',
+                        style: appTextStyles.paragraphS.copyWith(
+                          color: palette.grey400,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             );
           },

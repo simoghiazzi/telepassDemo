@@ -54,7 +54,6 @@ class CourseCard extends StatelessWidget {
         final iconSizeStatus = isSmallScreen ? 14.0 : 18.0;
         final starSize = isSmallScreen ? 20.0 : 28.0;
 
-        // Removed fixed cardHeight and SizedBox, let Card expand to fill grid cell
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 8),
           shape: RoundedRectangleBorder(
@@ -102,7 +101,7 @@ class CourseCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(width: isSmallScreen ? 8 : 16),
+                    SizedBox(width: isSmallScreen ? 6 : 16),
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.all(contentPadding),
@@ -129,7 +128,7 @@ class CourseCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            SizedBox(height: isSmallScreen ? 4 : 8),
+                            SizedBox(height: isSmallScreen ? 2 : 8),
                             Wrap(
                               spacing: isSmallScreen ? 6 : 10,
                               crossAxisAlignment: WrapCrossAlignment.center,
@@ -177,7 +176,7 @@ class CourseCard extends StatelessWidget {
                                 fontSize: fontSizeTitle,
                               ),
                             ),
-                            SizedBox(height: isSmallScreen ? 3 : 6),
+                            SizedBox(height: isSmallScreen ? 2 : 6),
                             Row(
                               children: [
                                 if (course.status == 'completed' &&
@@ -221,7 +220,7 @@ class CourseCard extends StatelessWidget {
                                 ],
                               ],
                             ),
-                            SizedBox(height: isSmallScreen ? 4 : 8),
+                            SizedBox(height: isSmallScreen ? 2 : 8),
                             LinearProgressIndicator(
                               value: course.progress ?? 0,
                               minHeight: isSmallScreen ? 3 : 5,

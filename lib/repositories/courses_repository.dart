@@ -5,7 +5,7 @@ class CoursesRepository {
   Future<Map<String, dynamic>> getCourses(String token) async {
     //As already shown, as an example in sign_in_repository.dart, notification_repository.dart and courses_repository.dart,
     // we mock an actual API call that could be performed via the Dio package
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     final random = Random();
     List<String> categories = [
       "servizi e prodotti",
@@ -81,7 +81,7 @@ class CoursesRepository {
   Future<Map<String, dynamic>> getHighlightCourses(String token) async {
     //As already shown, as an example in sign_in_repository.dart, notification_repository.dart and courses_repository.dart,
     // we mock an actual API call that could be performed via the Dio package
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     final random = Random();
     List<String> categories = [
       "servizi e prodotti",

@@ -33,7 +33,6 @@ class _LoginViewState extends State<SigninView> {
     super.initState();
     signinViewModel = context.read<SigninViewModel>();
 
-    // Initialize controllers with data from authData if available
     final email = signinViewModel.authData?['email'];
     final password = signinViewModel.authData?['username'];
 
@@ -340,13 +339,6 @@ class _LoginViewState extends State<SigninView> {
                 children: [
                   Image.asset('assets/images/logo.png', height: 32),
                   const SizedBox(height: 8),
-                  Text(
-                    'Sede legale: Via Laurentina, 449 - 00142 Roma (RM)\nP.IVA 09771701001 - Certificato ISO9001 e ISO27001',
-                    style: appTextStyles.paragraphS.copyWith(
-                      color: palette.grey400,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
                 ],
               ),
             ), // end footer Container

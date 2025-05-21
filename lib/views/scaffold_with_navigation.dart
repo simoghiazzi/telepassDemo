@@ -64,7 +64,6 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
   }
 
   void showFaqDrawer(BuildContext context, List<FaqModel> faqs) {
-    // Only one drawer at a time: close notifications drawer if open (handled by pop)
     showGeneralDialog(
       context: context,
       barrierLabel: "FAQ",
@@ -103,7 +102,6 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
     BuildContext context,
     List<NotificationModel> notifications,
   ) {
-    // Only one drawer at a time: close FAQ drawer if open (handled by pop)
     showGeneralDialog(
       context: context,
       barrierLabel: "Notifiche",
@@ -365,25 +363,6 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
             ),
           ),
           extendBody: true,
-          bottomNavigationBar: Container(
-            color: palette.primary1000,
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset('assets/images/logo.png', height: 32),
-                const SizedBox(height: 8),
-                Text(
-                  'Sede legale: Via Laurentina, 449 - 00142 Roma (RM)\nP.IVA 09771701001 - Certificato ISO9001 e ISO27001',
-                  style: appTextStyles.paragraphS.copyWith(
-                    color: palette.grey400,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
         );
       },
     );
@@ -395,7 +374,6 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
         return 'Benvenuto!'; // Home page label
       case 1:
         return 'Corsi'; // Courses page label
-      // Add more cases for other pages if needed
       default:
         return 'Cerca';
     }

@@ -32,7 +32,7 @@ class SigninRepository {
     // }
 
     //Mocking awaiting for the API response
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     // Simulated user JSON
     return {
       'id': 1,
