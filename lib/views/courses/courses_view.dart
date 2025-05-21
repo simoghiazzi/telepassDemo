@@ -167,7 +167,13 @@ class _CoursesViewState extends State<CoursesView> {
               }
             }
 
-            return Column(children: children);
+            return Row(
+              children: [
+                Expanded(child: Container()),
+                Expanded(flex: 10, child: Column(children: children)),
+                Expanded(child: Container()),
+              ],
+            );
           },
         );
       },

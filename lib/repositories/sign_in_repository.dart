@@ -41,7 +41,9 @@ class SigninRepository {
       'deletedAt': null,
       'email': authData['email'],
       'username': 'testuser',
-      'age': 28,
+      'position': 3,
+      'profileImage': 'assets/images/stock_profile.png',
+      'points': 421,
       'token': 'dummy_refresh_token',
       'tokenExpDate': '2025-06-18T22:00:00Z',
       'personalData': {

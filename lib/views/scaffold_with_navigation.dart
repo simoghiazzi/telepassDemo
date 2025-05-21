@@ -358,17 +358,7 @@ class _ScaffoldWithNavigationState extends State<ScaffoldWithNavigation> {
                 const SizedBox(height: 16),
                 Expanded(
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(child: Container()),
-                            Expanded(flex: 10, child: widget.navigationShell),
-                            Expanded(child: Container()),
-                          ],
-                        ),
-                      ],
-                    ),
+                    child: Column(children: [widget.navigationShell]),
                   ),
                 ),
               ],

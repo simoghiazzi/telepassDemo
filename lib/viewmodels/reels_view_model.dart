@@ -16,9 +16,9 @@ class ReelsError extends ReelsState {
   ReelsError(this.message);
 }
 
-class ReelsCubit extends Cubit<ReelsState> {
+class ReelsViewModel extends Cubit<ReelsState> {
   final ReelsRepository repository;
-  ReelsCubit(this.repository) : super(ReelsLoading());
+  ReelsViewModel(this.repository) : super(ReelsLoading());
 
   Future<void> loadReels() async {
     emit(ReelsLoading());

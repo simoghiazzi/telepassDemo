@@ -5,7 +5,9 @@ class UserModel {
   String? deletedAt;
   String? email;
   String username;
-  int age;
+  int position;
+  String profileImage;
+  int points;
   String? token;
   String? tokenExpDate;
   PersonalData personalData;
@@ -17,7 +19,9 @@ class UserModel {
     this.deletedAt,
     this.email,
     required this.username,
-    required this.age,
+    required this.position,
+    required this.profileImage,
+    required this.points,
     this.token,
     this.tokenExpDate,
     required this.personalData,
@@ -30,7 +34,9 @@ class UserModel {
     deletedAt: json['deletedAt'],
     email: json['email'],
     username: json['username'],
-    age: json['age'],
+    position: json['position'],
+    profileImage: json['profileImage'],
+    points: json['points'],
     token: json['token'],
     tokenExpDate: json['tokenExpDate'],
     personalData: PersonalData.fromJson(json['personalData']),
@@ -43,7 +49,9 @@ class UserModel {
     'deletedAt': deletedAt,
     'email': email,
     'username': username,
-    'age': age,
+    'position': position,
+    'profileImage': profileImage,
+    'points': points,
     'token': token,
     'tokenExpDate': tokenExpDate,
     'personalData': personalData.toJson(),
@@ -92,5 +100,4 @@ class PersonalData {
     'birthDate': birthDate,
     'gender': gender,
   };
-
 }
